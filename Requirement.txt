@@ -1,0 +1,10 @@
+Challenge 2: OpenAPI Schema Model Resolver
+
+Create a python script that has method "get_schema".
+Input: This method accepts 1 paramater called "model_name".
+Output: Returns the schema of the Model resolving all the references.
+
+Note:
+1. Use Python 3.7
+2. Do not use additional library other than libraries available in Python
+3. The open API is attached with filename Challenge2 Open API.json.

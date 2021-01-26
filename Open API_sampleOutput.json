@@ -1,0 +1,144 @@
+{
+   "title":"mediaAssetGet",
+   "type":"object",
+   "properties":{
+      "gtin":{
+         "description":"aka EAN13, SKU",
+         "example":"1234567890123",
+         "type":"string",
+         "pattern":"^[0-9]*$",
+         "minLength":13,
+         "maxLength":13,
+         "x-examples":{
+            "4711471147110":4711471147110,
+            "4711471147111":4711471147110
+         },
+         "x-tags":[
+            "Core Attributes"
+         ]
+      },
+      "channel":{
+         "type":"string",
+         "description":"describes a channel of the data source - can be GKK, FotoFlowVogelheim, or a market place partner... Channel key for this data source; details of the channel can be accessed via endpoint /channel.",
+         "example":"CHANNEL_EXAMPLE_019393",
+         "pattern":"^[A-Za-z0-9_]*$",
+         "minLength":3,
+         "maxLength":50,
+         "title":"channel"
+      },
+      "mediaId":{
+         "description":"Todo: Manage old school convention 01 = Artikelbild1, ... and handle swatch!",
+         "default":"01",
+         "example":"01",
+         "type":"string",
+         "pattern":"^[A-Za-z0-9]*$",
+         "minLength":1,
+         "maxLength":50
+      },
+      "mediaType":{
+         "enum":[
+            "MainImage",
+            "AuxiliaryImage",
+            "AdditionalImage",
+            "SwatchImage"
+         ],
+         "example":"MainImage",
+         "type":"string"
+      },
+      "contentType":{
+         "enum":[
+            "image/tiff",
+            "image/png",
+            "image/jpeg",
+            "image/gif",
+            "image/bmp"
+         ],
+         "example":"image/jpeg",
+         "type":"string"
+      },
+      "resolutionKey":{
+         "description":"Describes the resolution type for images when retrieving. The original (untouched file) is accessible via ORIGINAL.",
+         "enum":[
+            "ORIGINAL",
+            "X240",
+            "X1024",
+            "X2048"
+         ],
+         "example":"ORIGINAL",
+         "type":"string",
+         "x-examples":{
+            
+         }
+      },
+      "resolutionInPx":{
+         "type":"string",
+         "pattern":"^[A-Za-z0-9 ]*$",
+         "maxLength":50
+      },
+      "description":{
+         "type":"string",
+         "pattern":"^[A-Za-z0-9 ]*$",
+         "maxLength":50
+      },
+      "brand":{
+         "type":"string",
+         "pattern":"^[A-Za-z0-9 ]*$",
+         "maxLength":50
+      },
+      "category":{
+         "type":"string",
+         "pattern":"^[A-Za-z0-9 ]*$",
+         "maxLength":50
+      },
+      "status":{
+         "type":"string",
+         "title":"mediaStatus",
+         "enum":[
+            "ML010New",
+            "ML030Imported",
+            "ML060QaPending",
+            "ML070QaApproved",
+            "ML090Retired",
+            "ML099Error"
+         ],
+         "pattern":"^[A-Za-z0-9_]*$",
+         "minLength":5,
+         "maxLength":50,
+         "description":"Media Status - TODO: Review Values"
+      },
+      "sizeInBytes":{
+         "type":"integer"
+      },
+      "hasCopyright":{
+         "type":"boolean"
+      },
+      "licenseValidFrom":{
+         "description":"E.g. model rights",
+         "type":"string",
+         "format":"date-time"
+      },
+      "licenseValidUntil":{
+         "description":"E.g. model rights",
+         "type":"string",
+         "format":"date-time"
+      },
+      "sourceUrl":{
+         "type":"string",
+         "format":"uri"
+      },
+      "sourceUrlValidFrom":{
+         "type":"string",
+         "format":"date-time"
+      },
+      "sourceUrlValidUntil":{
+         "type":"string",
+         "format":"date-time"
+      }
+   },
+   "required":[
+      "gtin",
+      "channel",
+      "mediaId",
+      "mediaType"
+   ]
+}

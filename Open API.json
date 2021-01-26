@@ -1,0 +1,650 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "api-productlake-media",
+    "version": "0.2.0",
+    "contact": {
+      "email": "test@test.com"
+    },
+    "description": "Media Asset Handling within the Product Lake"
+  },
+  "servers": [
+    {
+      "url": "https://sample.com",
+      "description": "BETA"
+    }
+  ],
+  "paths": {
+    "/media": {
+      "get": {
+        "operationId": "GetMediaAsset",
+        "x-amazon-apigateway-request-validator": "header-only",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/channel"
+          },
+          {
+            "$ref": "#/components/parameters/gtin"
+          },
+          {
+            "name": "mediaId",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/mediaId"
+            }
+          },
+          {
+            "schema": {
+              "$ref": "#/components/schemas/mediaType"
+            },
+            "in": "header",
+            "name": "mediaType"
+          },
+          {
+            "schema": {
+              "$ref": "#/components/schemas/contentType"
+            },
+            "in": "header",
+            "name": "contentType"
+          },
+          {
+            "schema": {
+              "$ref": "#/components/schemas/resolutionKey"
+            },
+            "in": "header",
+            "name": "resolutionKey"
+          }
+        ],
+        "tags": [
+          "Media Lake"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/mediaAssetsGet"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "description": "TODO: Description",
+        "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
+          "uri": "${LAMBDA_INVOCATION_ARN_MEDIA_GET}",
+          "httpMethod": "POST"
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "",
+        "operationId": "PostMedia",
+        "x-amazon-apigateway-request-validator": "body-only",
+        "tags": [
+          "Media Lake"
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "description": "TODO: Description",
+        "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
+          "uri": "${LAMBDA_INVOCATION_ARN_MEDIA_POST}",
+          "httpMethod": "POST"
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/mediaAssetsPost"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "",
+        "operationId": "PatchMedia",
+        "x-amazon-apigateway-request-validator": "body-only",
+        "tags": [
+          "Media Lake"
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "description": "Request for updating the media tags",
+        "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
+          "uri": "${LAMBDA_INVOCATION_ARN_MEDIA_PATCH}",
+          "httpMethod": "POST"
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/mediaAssetsPatch"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteMediaAsset",
+        "x-amazon-apigateway-request-validator": "header-only",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/channel"
+          },
+          {
+            "$ref": "#/components/parameters/gtin"
+          },
+          {
+            "name": "mediaId",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/mediaId"
+            }
+          },
+          {
+            "schema": {
+              "$ref": "#/components/schemas/contentType"
+            },
+            "in": "header",
+            "name": "contentType"
+          }
+        ],
+        "tags": [
+          "Media Lake"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "description": "TODO: Description",
+        "x-amazon-apigateway-integration": {
+          "type": "aws_proxy",
+          "uri": "${LAMBDA_INVOCATION_ARN_MEDIA_DELETE}",
+          "httpMethod": "POST"
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "channel": {
+        "name": "channel",
+        "in": "header",
+        "schema": {
+          "$ref": "#/components/schemas/channel"
+        }
+      },
+      "gtin": {
+        "name": "gtin",
+        "in": "header",
+        "schema": {
+          "$ref": "#/components/schemas/gtin"
+        }
+      }
+    },
+    "schemas": {
+      "mediaAssetGet": {
+        "title": "mediaAssetGet",
+        "type": "object",
+        "properties": {
+          "gtin": {
+            "$ref": "#/components/schemas/gtin"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/channel"
+          },
+          "mediaId": {
+            "$ref": "#/components/schemas/mediaId"
+          },
+          "mediaType": {
+            "$ref": "#/components/schemas/mediaType"
+          },
+          "contentType": {
+            "$ref": "#/components/schemas/contentType"
+          },
+          "resolutionKey": {
+            "$ref": "#/components/schemas/resolutionKey"
+          },
+          "resolutionInPx": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "description": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "brand": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "category": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "status": {
+            "$ref": "#/components/schemas/mediaStatus"
+          },
+          "sizeInBytes": {
+            "type": "integer"
+          },
+          "hasCopyright": {
+            "type": "boolean"
+          },
+          "licenseValidFrom": {
+            "description": "E.g. model rights",
+            "type": "string",
+            "format": "date-time"
+          },
+          "licenseValidUntil": {
+            "description": "E.g. model rights",
+            "type": "string",
+            "format": "date-time"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "sourceUrlValidFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sourceUrlValidUntil": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "gtin",
+          "channel",
+          "mediaId",
+          "mediaType"
+        ]
+      },
+      "mediaAssetsGet": {
+        "type": "object",
+        "properties": {
+          "mediaAssets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/mediaAssetGet"
+            }
+          }
+        }
+      },
+      "mediaAssetsPost": {
+        "type": "object",
+        "properties": {
+          "mediaAssets": {
+            "type": "array",
+            "maxItems": 99999,
+            "items": {
+              "$ref": "#/components/schemas/mediaAssetPost"
+            }
+          }
+        }
+      },
+      "mediaAssetsPatch": {
+        "type": "object",
+        "properties": {
+          "mediaAssets": {
+            "type": "array",
+            "maxItems": 99999,
+            "items": {
+              "$ref": "#/components/schemas/mediaAssetPatch"
+            }
+          }
+        }
+      },
+      "mediaAssetPost": {
+        "title": "mediaAssetPost",
+        "type": "object",
+        "x-examples": {
+          "example-1": {
+            "gtin": "1234567890123",
+            "channel": "CHANNEL_EXAMPLE_019393",
+            "mediaId": "01",
+            "contentType": "image/jpeg",
+            "mediaType": "MainImage",
+            "description": "string",
+            "brand": "string",
+            "category": "string",
+            "status": "ML010New",
+            "hasCopyright": true,
+            "media": {
+              "payload": "string"
+            }
+          },
+          "example-2": {
+            "gtin": "5714502996613",
+            "channel": "gkkFotoFlowTest",
+            "mediaId": "01",
+            "mediaType": "MainImage",
+            "description": "DYfn",
+            "status": "ML010New",
+            "hasCopyright": true,
+            "contentType": "image/jpeg",
+            "media": {
+              "sourceUrl": "sdfsdfsdf",
+              "sourceUrlValidUntil": "2020-10-21T17:19:43:297+0200"
+            }
+          }
+        },
+        "properties": {
+          "gtin": {
+            "$ref": "#/components/schemas/gtin"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/channel"
+          },
+          "mediaId": {
+            "$ref": "#/components/schemas/mediaId"
+          },
+          "contentType": {
+            "$ref": "#/components/schemas/contentType"
+          },
+          "mediaType": {
+            "$ref": "#/components/schemas/mediaType"
+          },
+          "description": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "brand": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "category": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "status": {
+            "$ref": "#/components/schemas/mediaStatus"
+          },
+          "hasCopyright": {
+            "type": "boolean"
+          },
+          "media": {
+            "anyOf": [
+              {
+                "properties": {
+                  "payload": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "payload"
+                ]
+              },
+              {
+                "properties": {
+                  "sourceUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "sourceUrlValidUntil": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "required": [
+                  "sourceUrl",
+                  "sourceUrlValidUntil"
+                ]
+              }
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "gtin",
+          "channel",
+          "mediaId",
+          "contentType"
+        ]
+      },
+      "mediaAssetPatch": {
+        "title": "mediaAssetPatch",
+        "type": "object",
+        "properties": {
+          "gtin": {
+            "$ref": "#/components/schemas/gtin"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/channel"
+          },
+          "mediaId": {
+            "$ref": "#/components/schemas/mediaId"
+          },
+          "contentType": {
+            "$ref": "#/components/schemas/contentType"
+          },
+          "mediaType": {
+            "$ref": "#/components/schemas/mediaType"
+          },
+          "brand": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "category": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "description": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 ]*$",
+            "maxLength": 50
+          },
+          "status": {
+            "$ref": "#/components/schemas/mediaStatus"
+          },
+          "hasCopyright": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "gtin",
+          "channel",
+          "mediaId"
+        ]
+      },
+      "mediaId": {
+        "description": "Todo: Manage old school convention 01 = Artikelbild1, ... and handle swatch!",
+        "default": "01",
+        "example": "01",
+        "type": "string",
+        "pattern": "^[A-Za-z0-9]*$",
+        "minLength": 1,
+        "maxLength": 50
+      },
+      "mediaResolution": {
+        "description": "Describes the resolution for images when retrieving, might lead to resizing automatically. The original (untouched file) is accessible via ORIGINAL.",
+        "enum": [
+          "ORIGINAL",
+          "THUMBNAIL",
+          "LOWRES",
+          "HIGHRES"
+        ],
+        "example": "ORIGINAL",
+        "type": "string",
+        "x-examples": {}
+      },
+      "mediaType": {
+        "enum": [
+          "MainImage",
+          "AuxiliaryImage",
+          "AdditionalImage",
+          "SwatchImage"
+        ],
+        "example": "MainImage",
+        "type": "string"
+      },
+      "contentType": {
+        "enum": [
+          "image/tiff",
+          "image/png",
+          "image/jpeg",
+          "image/gif",
+          "image/bmp"
+        ],
+        "example": "image/jpeg",
+        "type": "string"
+      },
+      "gtin": {
+        "description": "aka EAN13, SKU",
+        "example": "1234567890123",
+        "type": "string",
+        "pattern": "^[0-9]*$",
+        "minLength": 13,
+        "maxLength": 13,
+        "x-examples": {
+          "4711471147110": 4711471147110,
+          "4711471147111": 4711471147110
+        },
+        "x-tags": [
+          "Core Attributes"
+        ]
+      },
+      "mediaStatus": {
+        "type": "string",
+        "title": "mediaStatus",
+        "enum": [
+          "ML010New",
+          "ML030Imported",
+          "ML060QaPending",
+          "ML070QaApproved",
+          "ML090Retired",
+          "ML099Error"
+        ],
+        "pattern": "^[A-Za-z0-9_]*$",
+        "minLength": 5,
+        "maxLength": 50,
+        "description": "Media Status - TODO: Review Values"
+      },
+      "channel": {
+        "type": "string",
+        "description": "describes a channel of the data source - can be GKK, FotoFlowVogelheim, or a market place partner... Channel key for this data source; details of the channel can be accessed via endpoint /channel.",
+        "example": "CHANNEL_EXAMPLE_019393",
+        "pattern": "^[A-Za-z0-9_]*$",
+        "minLength": 3,
+        "maxLength": 50,
+        "title": "channel"
+      },
+      "resolutionKey": {
+        "description": "Describes the resolution type for images when retrieving. The original (untouched file) is accessible via ORIGINAL.",
+        "enum": [
+          "ORIGINAL",
+          "X240",
+          "X1024",
+          "X2048"
+        ],
+        "example": "ORIGINAL",
+        "type": "string",
+        "x-examples": {}
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "apiKey",
+        "name": "auth",
+        "in": "header",
+        "x-amazon-apigateway-authtype": "custom",
+        "x-amazon-apigateway-authorizer": {
+          "type": "request",
+          "identitySource": "method.request.header.Authorization",
+          "authorizerUri": "${LAMBDA_INVOCATION_ARN_BASIC_AUTH}",
+          "authorizerResultTtlInSeconds": 300
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Products"
+    },
+    {
+      "name": "Article Lake"
+    },
+    {
+      "name": "Media Lake"
+    },
+    {
+      "name": "Listing"
+    },
+    {
+      "name": "Channel"
+    },
+    {
+      "name": "classification"
+    }
+  ],
+  "x-amazon-apigateway-request-validators": {
+    "all": {
+      "validateRequestParameters": true,
+      "validateRequestBody": true
+    },
+    "body-only": {
+      "validateRequestParameters": false,
+      "validateRequestBody": true
+    },
+    "header-only": {
+      "validateRequestParameters": true,
+      "validateRequestBody": false
+    }
+  }
+}
