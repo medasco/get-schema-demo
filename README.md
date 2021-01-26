@@ -1,2 +1,2 @@
 # get-schema-demo
-OpenAPI Schema Model Resolver Demo
+Demonstration of OpenAPI Schema Model Resolver
